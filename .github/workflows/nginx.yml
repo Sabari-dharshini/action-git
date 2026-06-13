@@ -10,12 +10,13 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Install Nginx
         run: |
-          sudo yum install nginx -y
+          sudo apt update
+          sudo apt install nginx -y
 
       - name: Start and Enable Nginx
         run: |
@@ -24,8 +25,8 @@ jobs:
 
       - name: Deploy Website
         run: |
-          sudo cp index.html /usr/share/nginx/html/index.html
+          sudo cp index.html /var/www/html/index.html
 
       - name: Verify Nginx Status
         run: |
-          systemctl status nginx --no-pager
+          sudo systemctl status nginx --no-pager
