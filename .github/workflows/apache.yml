@@ -1,0 +1,21 @@
+name:Deploy-website
+on:
+    push:
+        branch:[ main ]
+        workflow_dispatch
+        jobs:
+            deploy:
+            runs-on:self-hosted
+            steps:
+                name:checkout
+                uses:actions/checkout@v4
+
+                name:install apache
+                run:sudo apt install httpd -y
+
+                name:start httpd
+                run:sudo systemctl start httpd
+                    sudo systemctl enable httpd
+
+                name:copy index.html to apache
+                run:sudo cp index.html /var/www/html/index.html
