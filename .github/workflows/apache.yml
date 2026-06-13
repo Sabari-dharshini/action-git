@@ -1,21 +1,30 @@
-name:Deploy-website
+name: Install Apache
+
 on:
-    push:
-        branch:[ main ]
-        workflow_dispatch
-        jobs:
-            deploy:
-            runs-on:self-hosted
-            steps:
-                name:checkout
-                uses:actions/checkout@v4
+  workflow_dispatch:
 
-                name:install apache
-                run:sudo apt install httpd -y
+jobs:
+  deploy:
 
-                name:start httpd
-                run:sudo systemctl start httpd
-                    sudo systemctl enable httpd
+    runs-on: self-hosted
 
-                name:copy index.html to apache
-                run:sudo cp index.html /var/www/html/index.html
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Apache
+        run: |
+          sudo yum install httpd -y
+
+      - name: Start Apache
+        run: |
+          sudo systemctl start httpd
+          sudo systemctl enable httpd
+
+      - name: Copy index.html
+        run: |
+          sudo cp index.html /var/www/html/index.html
+
+      - name: Verify Apache
+        run: |
+          systemctl status httpd --no-pager
